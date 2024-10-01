@@ -38,12 +38,12 @@ signUp.addEventListener('click', (event) => {
     const db = getFirestore();
 
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-        const userData = {
+    .then((userCredential)=>{
+        const user=userCredential.user;
+        const userData={
             email: email,
             firstName: firstName,
-            lastName: lastName
+            lastName:lastName
         };
         showMessage('Account Created Successfully', 'signUpMessage');
         const docRef = doc(db, "users", user.uid);

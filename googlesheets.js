@@ -1,7 +1,7 @@
 // 1. Redirect the user to Google OAuth for authorization
 function redirectToGoogleOAuth() {
     const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your actual Google Client ID
-    const redirectUri = 'https://thaoannguyen145.github.io/oauth2callback';  // Updated redirect URI
+    const redirectUri = 'https://thaoannguyen145.github.io/sophiahere';  // Updated redirect URI
     const scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
     
     const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&access_type=offline`;
@@ -20,7 +20,7 @@ function redirectToGoogleOAuth() {
   async function getAccessToken(authCode) {
     const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your Google Client ID
     const clientSecret = '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';  // Replace with your Google Client Secret
-    const redirectUri = 'https://thaoannguyen145.github.io/oauth2callback';  // Updated redirect URI
+    const redirectUri = 'https://thaoannguyen145.github.io/sophiahere';  // Updated redirect URI
     const tokenUrl = 'https://oauth2.googleapis.com/token';
   
     const bodyData = {

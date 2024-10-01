@@ -1,20 +1,27 @@
-// 1. Redirect the user to Google OAuth for authorization
 function redirectToGoogleOAuth() {
-    const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your actual Google Client ID
-    const redirectUri = 'https://thaoannguyen145.github.io/sophiahere';  // Updated redirect URI
-    const scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
-    
-    const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&access_type=offline`;
+  const clientId = 'your-client-id';  // Replace with your actual Google Client ID
+  const redirectUri = 'https://thaoannguyen145.github.io/sophiahere';  // Use the correct homepage URL
+  const scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
   
-    // Redirect to the Google OAuth page
-    window.location.href = oauthUrl;
+  const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&access_type=offline`;
+
+  // Redirect to the Google OAuth page
+  window.location.href = oauthUrl;
+}
+ // Get authorization code from URL
+function getAuthCodeFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('code');
+}
+
+// When the page loads, check if there’s an authorization code in the URL
+window.onload = function() {
+  const authCode = getAuthCodeFromUrl();
+  if (authCode) {
+    // Exchange the authorization code for an access token
+    getAccessToken(authCode);
   }
-  
-  // 2. Get the authorization code from the URL after Google redirects back
-  function getAuthCodeFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('code');
-  }
+}
   
   // 3. Exchange the authorization code for an access token
   async function getAccessToken(authCode) {

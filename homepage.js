@@ -3,8 +3,12 @@ import {getAuth, onAuthStateChanged, signOut} from "https://www.gstatic.com/fire
 import{getFirestore, getDoc, doc} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 const firebaseConfig = {
-    //YOUR COPIED FIREBASE PART SHOULD BE HERE
- //WATCH THIS VIDEO TO LEARN WHAT TO PUT HERE   https://youtu.be/_Xczf06n6x0
+    apiKey: "AIzaSyC5UQOZc3QGWb_A1gyPCEAOn_BMBEXOBas",
+    authDomain: "sophia-here.firebaseapp.com",
+    projectId: "sophia-here",
+    storageBucket: "sophia-here.appspot.com",
+    messagingSenderId: "226577895652",
+    appId: "1:226577895652:web:4507f2b7d85a7923e89cf1"
   };
  
   // Initialize Firebase

@@ -1,5 +1,5 @@
 function redirectToGoogleOAuth() {
-  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your actual Google Client ID
+  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Ensure this matches your actual Google Client ID
   const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Use the correct homepage URL
   const scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
   
@@ -8,7 +8,8 @@ function redirectToGoogleOAuth() {
   // Redirect to the Google OAuth page
   window.location.href = oauthUrl;
 }
- // Get authorization code from URL
+
+// Get authorization code from URL
 function getAuthCodeFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('code');
@@ -22,36 +23,39 @@ window.onload = function() {
     getAccessToken(authCode);
   }
 }
+
+// 3. Exchange the authorization code for an access token
+async function getAccessToken(authCode) {
+  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Make sure this is correct
+  const clientSecret = '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';  // Ensure this is correct and matches the regenerated client secret
+  const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Updated redirect URI
+  const tokenUrl = 'https://oauth2.googleapis.com/token';
+
+  const bodyData = {
+    code: authCode,
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uri: redirectUri,
+    grant_type: 'authorization_code',
+  };
+
+  const response = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams(bodyData),
+  });
+
+  const data = await response.json();
   
-  // 3. Exchange the authorization code for an access token
-  async function getAccessToken(authCode) {
-    const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your Google Client ID
-    const clientSecret = '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';  // Replace with your Google Client Secret
-    const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Updated redirect URI
-    const tokenUrl = 'https://oauth2.googleapis.com/token';
-  
-    const bodyData = {
-      code: authCode,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-      grant_type: 'authorization_code',
-    };
-  
-    const response = await fetch(tokenUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams(bodyData),
-    });
-  
-    const data = await response.json();
+  if (data.error) {
+    console.error('Error:', data.error_description);
+  } else {
     console.log('Access Token:', data.access_token);
-    
-    // Call function to fetch Google Sheet metadata with the access token
-    loadGoogleSheetData(data.access_token);
   }
+}
+
   
   // 4. Extract the spreadsheet ID from the Google Sheets URL
   function getSpreadsheetId(googleSheetUrl) {

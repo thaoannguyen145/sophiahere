@@ -26,8 +26,8 @@ window.onload = function() {
 
 // 3. Exchange the authorization code for an access token
 async function getAccessToken(authCode) {
-  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Make sure this is correct
-  const clientSecret = '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';  // Ensure this is correct and matches the regenerated client secret
+  const clientId = 'your-client-id';  // Replace with actual Google Client ID
+  const clientSecret = 'your-client-secret';  // Replace with actual Google Client Secret
   const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Updated redirect URI
   const tokenUrl = 'https://oauth2.googleapis.com/token';
 
@@ -39,26 +39,34 @@ async function getAccessToken(authCode) {
     grant_type: 'authorization_code',
   };
 
-  const response = await fetch(tokenUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams(bodyData),
-  });
+  try {
+    // Make the POST request to get the access token
+    const response = await fetch(tokenUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams(bodyData),
+    });
 
-  const data = await response.json();
-  
-  if (data.error) {
-    console.error('Error:', data.error_description);
-  } else {
-    console.log('Access Token:', data.access_token);
+    // Parse the JSON response
+    const data = await response.json();  // Ensure the response is parsed into JSON
+
+    if (data.error) {
+      console.error('Error:', data.error_description);
+    } else {
+      console.log('Access Token:', data.access_token);
+
+      // Store the access token in localStorage
+      localStorage.setItem('google_access_token', data.access_token);
+
+      // Display the Google Sheet input field
+      document.getElementById('sheetInputSection').style.display = 'block';  // Show Google Sheet input field
+    }
+  } catch (error) {
+    console.error('Error fetching the access token:', error);
   }
 }
-
-  // Store the access token and display the Google Sheet input field
-localStorage.setItem('google_access_token', data.access_token);
-document.getElementById('sheetInputSection').style.display = 'block';  // Show Google Sheet input field
 
   // 4. Extract the spreadsheet ID from the Google Sheets URL
   function getSpreadsheetId(googleSheetUrl) {

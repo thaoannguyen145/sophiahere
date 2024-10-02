@@ -67,58 +67,69 @@ async function getAccessToken(authCode) {
     console.error('Error fetching the access token:', error);
   }
 }
+// Fetch the data from the Google Sheet
+function getSpreadsheetId(googleSheetUrl) {
+  const regex = /spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
+  const match = googleSheetUrl.match(regex);
+  return match ? match[1] : null;
+}
 
-  // 4. Extract the spreadsheet ID from the Google Sheets URL
-  function getSpreadsheetId(googleSheetUrl) {
-    const regex = /spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
-    const match = googleSheetUrl.match(regex);
-    return match ? match[1] : null;
+function fetchGoogleSheetData(accessToken) {
+  const googleSheetUrl = document.getElementById('sheetLink').value;
+  const spreadsheetId = getSpreadsheetId(googleSheetUrl);
+
+  if (!spreadsheetId) {
+    console.error('Invalid Google Sheets URL');
+    return;
   }
-  
-  // 5. Fetch metadata of Google Sheets to get the file name
-  function loadGoogleSheetData(accessToken) {
-    const googleSheetUrl = document.getElementById('sheetLink').value;
-    const spreadsheetId = getSpreadsheetId(googleSheetUrl);
-  
-    if (!spreadsheetId) {
-      console.error('Invalid Google Sheets URL');
-      return;
-    }
-  
-    // Use the Google Sheets API to fetch metadata (spreadsheet name)
-    const metadataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?access_token=${accessToken}`;
-  
-    fetch(metadataUrl)
-      .then(response => response.json())
-      .then(data => {
-        const fileName = data.properties.title;  // Get the file (spreadsheet) name
-        console.log('Google Sheet Name:', fileName);
-  
-        // Display the file name as a clickable link to start the quiz
-        const fileLink = document.createElement('a');
-        fileLink.href = "#";
-        fileLink.innerText = fileName;
-        fileLink.addEventListener('click', function() {
-          startVocabQuiz(data.sheets);  // Trigger the vocab quiz when clicked
-        });
-  
-        document.getElementById('sheetData').innerHTML = '';  // Clear previous content
-        document.getElementById('sheetData').appendChild(fileLink);  // Display the clickable file name
-      })
-      .catch(error => console.error('Error fetching Google Sheets data:', error));
+
+  // Google Sheets API URL to fetch columns F and J
+  const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/F:J?access_token=${accessToken}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (!data || !data.values || data.values.length === 0) {
+        console.error('No data found in the specified columns.');
+        return;
+      }
+
+      // If the data is successfully fetched, now retrieve the sheet's metadata (name)
+      const metadataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?access_token=${accessToken}`;
+
+      return fetch(metadataUrl);
+    })
+    .then(response => response.json())
+    .then(metadata => {
+      const fileName = metadata.properties.title;  // Get the file (spreadsheet) name
+      console.log('Google Sheet Name:', fileName);
+
+      // Display the file name as a clickable link
+      const fileLink = document.createElement('a');
+      fileLink.href = "#";
+      fileLink.innerText = fileName;
+      fileLink.addEventListener('click', function() {
+        // You can trigger any action, like navigating to a quiz page
+        alert(`You clicked on: ${fileName}`);
+      });
+
+      // Clear previous content and display the file name
+      document.getElementById('sheetData').innerHTML = '';
+      document.getElementById('sheetData').appendChild(fileLink);
+    })
+    .catch(error => console.error('Error fetching Google Sheets data:', error));
+}
+
+// Trigger the Google Sheet upload process when the user clicks the button
+document.getElementById('uploadSheetBtn').addEventListener('click', function() {
+  const accessToken = localStorage.getItem('google_access_token');  // Get the access token from Firebase login
+  if (accessToken) {
+    fetchGoogleSheetData(accessToken);
+  } else {
+    console.error('No access token found. Please sign in.');
   }
-  
-  // 6. Function to start the vocab quiz using the data from the Google Sheet
-  function startVocabQuiz(sheets) {
-    // Assuming the vocab data is in the first sheet (modify as needed)
-    const sheet = sheets[0];  // You can select other sheets based on the use case
-  
-    // TODO: Extract vocab data from the sheet and start the quiz
-    console.log('Starting vocab quiz with data from sheet:', sheet.properties.title);
-  
-    // Implement quiz logic here using the data from the sheet
-  }
-  
+});
+
   // 7. Handle OAuth callback and fetch the access token when the page loads
   window.onload = function() {
     const authCode = getAuthCodeFromUrl();

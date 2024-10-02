@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import{getFirestore, setDoc, doc} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 const firebaseConfig = {
@@ -57,7 +57,7 @@ signUp.addEventListener('click', (event) => {
     })
     .catch((error) => {
         const errorCode = error.code;
-        if (errorCode == 'auth/email-already-in-use') {
+        if (errorCode == '/email-already-in-use') {
             showMessage('Email Address Already Exists !!!', 'signUpMessage');
         } else {
             showMessage('unable to create User', 'signUpMessage');
@@ -88,4 +88,38 @@ signIn.addEventListener('click', (event) => {
             showMessage('Account does not Exist', 'signInMessage');
         }
     });
+});
+
+// Google Sign-In Logic
+const googleProvider = new GoogleAuthProvider();
+
+const googleSignInButton = document.getElementById('googleSignIn');
+googleSignInButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const auth = getAuth();
+
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            const user = result.user;
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+
+            const db = getFirestore();
+            const docRef = doc(db, "users", user.uid);
+            const userData = {
+                email: user.email,
+                firstName: user.displayName.split(' ')[0],
+                lastName: user.displayName.split(' ')[1] || '',
+            };
+
+            setDoc(docRef, userData).then(() => {
+                window.location.href = 'homepage.html';
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        })
+        .catch((error) => {
+            console.error("Error during Google sign-in: ", error);
+        });
 });

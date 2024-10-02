@@ -1,11 +1,20 @@
 // 1. Handle OAuth callback and fetch the access token when the page loads
 window.onload = function() {
+  // Check if Firebase user ID exists in localStorage before OAuth flow
+  const loggedInUserId = localStorage.getItem('loggedInUserId');
+  if (!loggedInUserId) {
+    console.error('No logged in user found!');
+    return;
+  }
+
+  // Handle Google OAuth flow
   const authCode = getAuthCodeFromUrl();
   if (authCode) {
     // Exchange the authorization code for an access token
     getAccessToken(authCode);
   }
 };
+
 
 // 2. Get authorization code from URL (part of the OAuth flow)
 function getAuthCodeFromUrl() {

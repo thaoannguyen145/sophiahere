@@ -56,7 +56,10 @@ async function getAccessToken(authCode) {
   }
 }
 
-  
+  // Store the access token and display the Google Sheet input field
+localStorage.setItem('google_access_token', data.access_token);
+document.getElementById('sheetInputSection').style.display = 'block';  // Show Google Sheet input field
+
   // 4. Extract the spreadsheet ID from the Google Sheets URL
   function getSpreadsheetId(googleSheetUrl) {
     const regex = /spreadsheets\/d\/([a-zA-Z0-9-_]+)/;

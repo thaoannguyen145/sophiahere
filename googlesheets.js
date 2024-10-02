@@ -1,5 +1,5 @@
 function redirectToGoogleOAuth() {
-  const clientId = 'your-client-id';  // Replace with your actual Google Client ID
+  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with your actual Google Client ID
   const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Use the correct homepage URL
   const scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
   

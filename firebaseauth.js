@@ -13,7 +13,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
  const app = initializeApp(firebaseConfig);
- const googleProvider = new GoogleAuthProvider();
  
  //Display message to users in a specified HTML element (eg: Created account successfully or errors)
  function showMessage(message, divId){
@@ -89,4 +88,38 @@ signIn.addEventListener('click', (event) => {
             showMessage('Account does not Exist', 'signInMessage');
         }
     });
+});
+
+// Google Sign-In Logic
+const googleProvider = new GoogleAuthProvider();
+
+const googleSignInButton = document.getElementById('googleSignIn');
+googleSignInButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const auth = getAuth();
+
+    signInWithPopup(auth, googleProvider)
+        .then((result) => {
+            const user = result.user;
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+
+            const db = getFirestore();
+            const docRef = doc(db, "users", user.uid);
+            const userData = {
+                email: user.email,
+                firstName: user.displayName.split(' ')[0],
+                lastName: user.displayName.split(' ')[1] || '',
+            };
+
+            setDoc(docRef, userData).then(() => {
+                window.location.href = 'homepage.html';
+            }).catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+        })
+        .catch((error) => {
+            console.error("Error during Google sign-in: ", error);
+        });
 });

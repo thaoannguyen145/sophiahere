@@ -51,23 +51,21 @@
     <div>Email: <span id="loggedUserEmail"></span></div>
     <button id="logout">Logout</button>
     
-    <!-- Add this button and input field somewhere on the homepage -->
-    <button id="uploadSheetBtn">Upload Google Sheet file</button>
-
+    <!-- Add this button to trigger showing the input field -->
+    <button id="showInputBtn">Upload Google Sheet file</button>
+    
     <!-- Hidden input field and button to fetch Google Sheets data -->
     <div id="sheetInputSection" style="display:none;">
         <input type="text" id="sheetLink" placeholder="Enter Google Sheet URL">
-        <button id="uploadSheetBtn">Upload Google Sheet</button>
+        <button id="fetchSheetBtn">Fetch Google Sheet</button>
     </div>
-
-    <script>
-    document.getElementById('uploadSheetBtn').addEventListener('click', function() {
-    // Show the input field when the upload button is clicked
-    document.getElementById('sheetInputSection').style.display = 'block';
-     });
-    </script>
-    <!-- Display the file name and start quiz link -->
+    
+    <!-- Div to display the file name and quiz link -->
     <div id="sheetData"></div>
+    
+    <!-- Link your JavaScript file -->
+    <script src="googlesheets.js"></script>
+
 
     <!-- Link your JavaScript file -->
     <script src="googlesheets.js"></script>

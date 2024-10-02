@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import{getFirestore, setDoc, doc} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
 
 const firebaseConfig = {
@@ -13,6 +13,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
  const app = initializeApp(firebaseConfig);
+ const googleProvider = new GoogleAuthProvider();
  
  //Display message to users in a specified HTML element (eg: Created account successfully or errors)
  function showMessage(message, divId){
@@ -57,7 +58,7 @@ signUp.addEventListener('click', (event) => {
     })
     .catch((error) => {
         const errorCode = error.code;
-        if (errorCode == 'auth/email-already-in-use') {
+        if (errorCode == '/email-already-in-use') {
             showMessage('Email Address Already Exists !!!', 'signUpMessage');
         } else {
             showMessage('unable to create User', 'signUpMessage');

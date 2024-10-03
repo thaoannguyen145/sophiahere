@@ -24,8 +24,8 @@ function getAuthCodeFromUrl() {
 
 // 3. Exchange the authorization code for an access token
 async function getAccessToken(authCode) {
-  const clientId = 'your-client-id';  // Replace with actual Google Client ID
-  const clientSecret = 'your-client-secret';  // Replace with actual Google Client Secret
+  const clientId = '456280299055-skrfapun7iq2tce6nc2fjn7qvo605s9p.apps.googleusercontent.com';  // Replace with actual Google Client ID
+  const clientSecret = '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';  // Replace with actual Google Client Secret
   const redirectUri = 'https://thaoannguyen145.github.io/sophiahere/homepage.html';  // Updated redirect URI
   const tokenUrl = 'https://oauth2.googleapis.com/token';
 

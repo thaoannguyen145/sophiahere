@@ -56,7 +56,7 @@ async function getAccessToken(authCode) {
       console.log('Access Token:', data.access_token);
 
       // Store the access token in localStorage for later use
-      //localStorage.setItem('google_access_token', data.access_token);
+      sessionStorage.setItem('google_access_token', data.access_token);
 
       // Display the Google Sheet input field
       document.getElementById('sheetInputSection').style.display = 'block';  // Show Google Sheet input field
@@ -73,7 +73,7 @@ document.getElementById('showInputBtn').addEventListener('click', function() {
 
 // 5. Trigger the Google Sheet fetch process when the user clicks the 'Fetch Google Sheet' button
 document.getElementById('fetchSheetBtn').addEventListener('click', function() {
-  const accessToken = localStorage.getItem('google_access_token');  // Get the access token from Firebase login
+  const accessToken = sessionStorage.getItem('google_access_token');  // Get the access token from Firebase login
   if (accessToken) {
     fetchGoogleSheetData(accessToken);  // Call the function to fetch data
   } else {

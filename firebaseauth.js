@@ -79,7 +79,7 @@ signIn.addEventListener('click', (event) => {
         const user = userCredential.user;
         localStorage.setItem('loggedInUserId', user.uid);
         // this is new code
-        // localStorage.setItem('google_access_token', data.access_token); 
+        localStorage.setItem('google_access_token', user.accessToken); 
         // this is new code
         window.location.href = 'homepage.html';
     })

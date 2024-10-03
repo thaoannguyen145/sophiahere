@@ -48,6 +48,9 @@ const firebaseConfig = {
 
   logoutButton.addEventListener('click',()=>{
     localStorage.removeItem('loggedInUserId');
+    // this is new code
+    localStorage.removeItem('google_access_token');
+    // this is new code
     signOut(auth)
     .then(()=>{
         window.location.href='index.html';

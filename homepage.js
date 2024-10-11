@@ -45,29 +45,29 @@ const firebaseConfig = {
   })
 
 
-let vocabularySet = [];
+    let vocabularySet = [];
 
-function addWord() {
-  const word = document.getElementById('word').value;
-  const definition = document.getElementById('definition').value;
+    function addWord() {
+      const word = document.getElementById('word').value;
+      const definition = document.getElementById('definition').value;
 
-  if (word && definition) {
-    vocabularySet.push({ word, definition });
-    localStorage.setItem('vocabularySet', JSON.stringify(vocabularySet));  // Save to localStorage
+      if (word && definition) {
+        vocabularySet.push({ word, definition });
+        localStorage.setItem('vocabularySet', JSON.stringify(vocabularySet));  // Save to localStorage
 
-    // Display the word list
-    displayWordList();
-  }
-}
+        // Display the word list
+        displayWordList();
+      }
+    }
 
-function displayWordList() {
-  const wordListDiv = document.getElementById('wordList');
-  wordListDiv.innerHTML = '';
+    function displayWordList() {
+      const wordListDiv = document.getElementById('wordList');
+      wordListDiv.innerHTML = '';
   
-  vocabularySet.forEach((vocab, index) => {
-    wordListDiv.innerHTML += `<p>${index + 1}. ${vocab.word} - ${vocab.definition}</p>`;
-  });
-}
+      vocabularySet.forEach((vocab, index) => {
+        wordListDiv.innerHTML += `<p>${index + 1}. ${vocab.word} - ${vocab.definition}</p>`;
+      });
+    }
 
 
   const logoutButton=document.getElementById('logout');

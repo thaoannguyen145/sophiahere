@@ -45,20 +45,53 @@
     <script type="module" src="homepage.js"></script>
 </head>
 <body>
-    <h1>Welcome to VocabWiz</h1>
-    <div>First Name: <span id="loggedUserFName"></span></div>
-    <div>Last Name: <span id="loggedUserLName"></span></div>
-    <div>Email: <span id="loggedUserEmail"></span></div>
-    <button id="logout">Logout</button>
+  <h1>Create Your Quiz</h1>
 
-    <form id="vocabForm">
-      <input type="text" id="word" placeholder="Enter word" required>
-      <input type="text" id="definition" placeholder="Enter definition" required>
-      <button type="button" onclick="addWord()">Add Word</button>
+  <!-- Form to add questions -->
+  <div id="add-question-form">
+    <h3>Add a New Question</h3>
+    <form id="questionForm">
+      <div>
+        <label for="question">Question:</label>
+        <input type="text" id="question" placeholder="Enter your question" required>
+      </div>
+      <div>
+        <label for="option1">Option 1:</label>
+        <input type="text" id="option1" placeholder="Enter option 1" required>
+      </div>
+      <div>
+        <label for="option2">Option 2:</label>
+        <input type="text" id="option2" placeholder="Enter option 2" required>
+      </div>
+      <div>
+        <label for="option3">Option 3:</label>
+        <input type="text" id="option3" placeholder="Enter option 3" required>
+      </div>
+      <div>
+        <label for="option4">Option 4:</label>
+        <input type="text" id="option4" placeholder="Enter option 4" required>
+      </div>
+      <div>
+        <label for="correctAnswer">Correct Answer:</label>
+        <select id="correctAnswer" required>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+          <option value="4">Option 4</option>
+        </select>
+      </div>
+      <button type="button" onclick="addQuestion()">Add Question</button>
     </form>
+  </div>
 
-    <div id="wordList"></div>
-    //This is new code 
+  <!-- Display added questions -->
+  <h3>Questions List:</h3>
+  <div id="questionsList"></div>
+
+  <!-- Button to start the test -->
+  <button type="button" onclick="startTest()">Start Test</button>
+
+  <script src="app.js"></script> <!-- External JS file -->
     
     
 </body>

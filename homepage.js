@@ -44,7 +44,7 @@ const firebaseConfig = {
     }
   })
 
-// This is new code 111024
+
 let vocabularySet = [];
 
 function addWord() {
@@ -68,7 +68,7 @@ function displayWordList() {
     wordListDiv.innerHTML += `<p>${index + 1}. ${vocab.word} - ${vocab.definition}</p>`;
   });
 }
-// This is new code
+
 
   const logoutButton=document.getElementById('logout');
 

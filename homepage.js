@@ -44,6 +44,32 @@ const firebaseConfig = {
     }
   })
 
+// This is new code 111024
+let vocabularySet = [];
+
+function addWord() {
+  const word = document.getElementById('word').value;
+  const definition = document.getElementById('definition').value;
+
+  if (word && definition) {
+    vocabularySet.push({ word, definition });
+    localStorage.setItem('vocabularySet', JSON.stringify(vocabularySet));  // Save to localStorage
+
+    // Display the word list
+    displayWordList();
+  }
+}
+
+function displayWordList() {
+  const wordListDiv = document.getElementById('wordList');
+  wordListDiv.innerHTML = '';
+  
+  vocabularySet.forEach((vocab, index) => {
+    wordListDiv.innerHTML += `<p>${index + 1}. ${vocab.word} - ${vocab.definition}</p>`;
+  });
+}
+// This is new code
+
   const logoutButton=document.getElementById('logout');
 
   logoutButton.addEventListener('click',()=>{
